@@ -1,0 +1,21 @@
+- hosts: stalk-activity
+  become: true
+
+  tasks:
+    - name: stop the cloud activity container
+      command: docker stop stalk-activity
+      ignore_errors: yes
+
+    - name: remove the cloud activity container
+      command: docker rm stalk-activity
+      ignore_errors: yes
+
+    - name: remove the cloud activity docker image
+      command: docker rmi waterkite94/stalk-activity
+      ignore_errors: yes
+
+    - name: pull the cloud activity image from docker hub
+      command: docker pull waterkite94/stalk-activity
+
+    - name: execute cloud activity container
+      command: docker run -d --name stalk-activity --network stalk-network waterkite94/stalk-activity
