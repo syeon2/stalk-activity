@@ -25,15 +25,19 @@ public class PostEntity extends BaseEntity {
 	@Column(name = "post_id", columnDefinition = "varchar(60)", nullable = false, unique = true)
 	private String postId;
 
+	@Column(name = "title", columnDefinition = "varchar(60)", nullable = false)
+	private String title;
+
 	@Column(name = "article", columnDefinition = "varchar(255)", nullable = false)
 	private String article;
 
-	@Column(name = "member_id", columnDefinition = "bigint", nullable = false)
-	private Long memberId;
+	@Column(name = "member_id", columnDefinition = "varchar(60)", nullable = false)
+	private String memberId;
 
 	@Builder
-	private PostEntity(String postId, String article, Long memberId) {
+	private PostEntity(long id, String postId, String title, String article, String memberId) {
 		this.postId = postId;
+		this.title = title;
 		this.article = article;
 		this.memberId = memberId;
 	}

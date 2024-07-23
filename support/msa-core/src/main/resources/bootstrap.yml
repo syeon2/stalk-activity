@@ -14,4 +14,4 @@ spring:
   cloud:
     config:
       uri: http://stalk-config:8888
-      name: member-service
+      name: activity-service

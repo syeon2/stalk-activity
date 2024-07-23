@@ -1,4 +1,7 @@
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":application"))
+
     // SQL
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
