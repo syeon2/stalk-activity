@@ -1,5 +1,6 @@
 package io.waterkite94.stalk.application.usecase
 
+import io.waterkite94.stalk.application.port.CommentPersistencePort
 import io.waterkite94.stalk.application.port.PostPersistencePort
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
@@ -11,4 +12,7 @@ import org.springframework.test.context.ActiveProfiles
 abstract class IntegrationTestSupport {
     @Mock
     protected lateinit var postPersistencePort: PostPersistencePort
+
+    @Mock
+    protected lateinit var commentPersistencePort: CommentPersistencePort
 }
