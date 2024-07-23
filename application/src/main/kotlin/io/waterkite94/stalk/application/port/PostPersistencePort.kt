@@ -1,0 +1,7 @@
+package io.waterkite94.stalk.application.port
+
+import io.waterkite94.stalk.domain.model.vo.Post
+
+interface PostPersistencePort {
+    fun save(post: Post): Post
+}
