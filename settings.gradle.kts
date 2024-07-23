@@ -2,6 +2,10 @@ rootProject.name = "activity-service"
 
 include(
     "bootstrap",
+    "activity-api",
+    "domain",
+    "application",
+    "infrastructure:persistence",
     "support:msa-core",
     "support:monitor"
 )
