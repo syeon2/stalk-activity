@@ -22,11 +22,11 @@ public class CommentEntity extends BaseEntity {
 	@Column(name = "id", columnDefinition = "bigint")
 	private Long id;
 
-	@Column(name = "article", columnDefinition = "varchar(255)", nullable = false)
-	private String article;
-
 	@Column(name = "comment_id", columnDefinition = "varchar(60)", nullable = false, unique = true)
 	private String commentId;
+
+	@Column(name = "article", columnDefinition = "varchar(255)", nullable = false)
+	private String article;
 
 	@Column(name = "post_id", columnDefinition = "varchar(60)", nullable = false)
 	private String postId;

@@ -10,4 +10,6 @@ data class Comment(
     val memberId: String,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
-)
+) {
+    fun withCommentId(commentId: String): Comment = copy(commentId = commentId)
+}
