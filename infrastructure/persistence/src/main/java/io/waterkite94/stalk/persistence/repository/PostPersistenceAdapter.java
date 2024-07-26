@@ -1,9 +1,9 @@
 package io.waterkite94.stalk.persistence.repository;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,17 +27,16 @@ public class PostPersistenceAdapter implements PostPersistencePort {
 		return postMapper.toDomain(savedPost);
 	}
 
-	@NotNull
+	@Nullable
 	@Override
 	public Post findPostByPostId(@NotNull String postId) {
 		Optional<PostEntity> findPostOptional = postRepository.findByPostId(postId);
 
-		return Objects.requireNonNull(findPostOptional.map(postMapper::toDomain).orElse(null));
-
+		return findPostOptional.map(postMapper::toDomain).orElse(null);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public void deleteByPostId(@NotNull String postId) {
 		postRepository.deleteByPostId(postId);
 	}
