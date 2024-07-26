@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/posts")
 class PostRestController(
     private val createPost: CreatePost,
     private val deletePost: DeletePost
 ) {
-    @PostMapping("/posts")
+    @PostMapping
     fun createPostApi(
         @RequestBody request: CreatePostRequest
     ): ApiResponse<CreatePostResponse> {
@@ -27,12 +27,12 @@ class PostRestController(
         return ApiResponse.success(CreatePostResponse.toResponse(createdPost))
     }
 
-    @DeleteMapping("/posts")
+    @DeleteMapping
     fun deletePostApi(
         @RequestBody request: DeletePostRequest
     ): ApiResponse<String> {
         deletePost.deletePost(request.postId, request.memberId)
 
-        return ApiResponse.success("success")
+        return ApiResponse.success("Deleted post successfully")
     }
 }

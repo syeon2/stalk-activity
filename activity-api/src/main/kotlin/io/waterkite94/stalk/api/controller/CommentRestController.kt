@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/comments")
 class CommentRestController(
     private val createComment: CreateComment,
     private val deleteComment: DeleteComment
 ) {
-    @PostMapping("/comments")
+    @PostMapping
     fun createCommentRequest(
         @RequestBody request: CreateCommentRequest
     ): ApiResponse<String> {
@@ -26,12 +26,12 @@ class CommentRestController(
         return ApiResponse.success(createdComment.commentId)
     }
 
-    @DeleteMapping("/comments")
+    @DeleteMapping
     fun deleteCommentRequest(
         @RequestBody request: DeleteCommentRequest
     ): ApiResponse<String> {
         deleteComment.deleteComment(request.commentId, request.memberId)
 
-        return ApiResponse.success("Deleted comment")
+        return ApiResponse.success("Deleted comment successfully")
     }
 }
