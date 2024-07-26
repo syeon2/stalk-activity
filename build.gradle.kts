@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm")
     kotlin("plugin.spring") apply false
-
     id("org.springframework.boot") apply false
     id("io.spring.dependency-management")
     id("org.jlleitschuh.gradle.ktlint")
@@ -32,8 +31,10 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
+    val kotlinMockitoVersion: String by project
+    val springCloudDependenciesVersion: String by project
+
     dependencyManagement {
-        val springCloudDependenciesVersion: String by project
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion")
         }
@@ -50,7 +51,7 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-        testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+        testImplementation("org.mockito.kotlin:mockito-kotlin:$kotlinMockitoVersion")
     }
 
     kotlin {
@@ -63,18 +64,11 @@ subprojects {
         useJUnitPlatform()
     }
 
-    sourceSets {
-        main {
-            java.srcDirs("src/main/kotlin", "src/main/java")
-            kotlin.srcDirs("src/main/kotlin")
-        }
-    }
-
     tasks.getByName("bootJar") {
         enabled = false
     }
 
     tasks.getByName("jar") {
-        enabled = false
+        enabled = true
     }
 }

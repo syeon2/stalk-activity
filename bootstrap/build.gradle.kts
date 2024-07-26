@@ -1,6 +1,5 @@
 dependencies {
     implementation(project(":activity-api"))
-    implementation(project(":infrastructure:persistence"))
     implementation(project(":support:msa-core"))
     implementation(project(":support:monitor"))
 
