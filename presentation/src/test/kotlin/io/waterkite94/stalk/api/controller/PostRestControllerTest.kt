@@ -12,7 +12,6 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.times
 import org.mockito.Mockito.doNothing
 import org.mockito.Mockito.verify
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
@@ -30,9 +29,6 @@ class PostRestControllerTest : ControllerTestSupport() {
 
     @MockBean
     private lateinit var deletePost: DeletePost
-
-    @Autowired
-    private lateinit var postRestController: PostRestController
 
     @Test
     @DisplayName(value = "게시글을 생성하는 API를 호출합니다.")
@@ -65,7 +61,7 @@ class PostRestControllerTest : ControllerTestSupport() {
     @DisplayName(value = "게시글을 삭제하는 API를 호출합니다.")
     fun deletePostApi() {
         // given
-        val deletePostRequest = deletePostREquest()
+        val deletePostRequest = deletePostRequest()
         doNothing().`when`(deletePost).deletePost(deletePostRequest.postId, deletePostRequest.memberId)
 
         // when  // then
@@ -76,12 +72,12 @@ class PostRestControllerTest : ControllerTestSupport() {
                     .contentType(MediaType.APPLICATION_JSON)
             ).andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data").isString)
+            .andExpect(jsonPath("$.data").value("Deleted post successfully"))
 
         verify(deletePost, times(1)).deletePost(deletePostRequest.postId, deletePostRequest.memberId)
     }
 
-    private fun deletePostREquest() = DeletePostRequest("postId", "memberId")
+    private fun deletePostRequest() = DeletePostRequest("postId", "memberId")
 
     private fun createPostRequest() = CreatePostRequest("title", "article", "memberId")
 

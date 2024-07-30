@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,11 +29,6 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 		postRepository.deleteAllInBatch();
 	}
 
-	@AfterEach
-	void after() {
-		postRepository.deleteAllInBatch();
-	}
-
 	@Test
 	@Transactional
 	@DisplayName(value = "게시글을 저장합니다.")
@@ -51,6 +45,21 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 		assertThat(findPostOptional).isPresent().get()
 			.extracting("title", "article", "memberId")
 			.containsExactlyInAnyOrder(post.getTitle(), post.getArticle(), post.getMemberId());
+	}
+
+	@Test
+	void findPostByPostId() {
+		// given
+		Post savedPost = postPersistenceAdapter.save(createPost());
+		assertThat(postRepository.findAll().size()).isEqualTo(1);
+
+		// when
+		Post findPost = postPersistenceAdapter.findPostByPostId(Objects.requireNonNull(savedPost.getPostId()));
+
+		// then
+		assertThat(findPost)
+			.extracting("title", "article", "memberId")
+			.containsExactlyInAnyOrder(savedPost.getTitle(), savedPost.getArticle(), savedPost.getMemberId());
 	}
 
 	@Test

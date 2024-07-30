@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.doNothing
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
@@ -28,9 +27,6 @@ class CommentRestControllerTest : ControllerTestSupport() {
 
     @MockBean
     private lateinit var deleteComment: DeleteComment
-
-    @Autowired
-    private lateinit var commentRestController: CommentRestController
 
     @Test
     @DisplayName("댓글을 생성하는 API를 호출합니다.")
@@ -69,7 +65,7 @@ class CommentRestControllerTest : ControllerTestSupport() {
             ).andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data").exists())
-            .andExpect(jsonPath("$.data").isString)
+            .andExpect(jsonPath("$.data").value("Deleted comment successfully"))
     }
 
     private fun createCommentRequest() = CreateCommentRequest("article", "postId", "memberId")

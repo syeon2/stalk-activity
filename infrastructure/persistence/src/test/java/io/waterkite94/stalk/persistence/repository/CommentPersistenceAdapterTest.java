@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,11 +28,6 @@ class CommentPersistenceAdapterTest extends IntegrationTestSupport {
 		commentRepository.deleteAllInBatch();
 	}
 
-	@AfterEach
-	void after() {
-		commentRepository.deleteAllInBatch();
-	}
-
 	@Test
 	@Transactional
 	@DisplayName(value = "댓글을 저장합니다.")
@@ -54,6 +48,29 @@ class CommentPersistenceAdapterTest extends IntegrationTestSupport {
 
 		assertThat(findComments.size()).isEqualTo(1);
 		assertThat(findComments.get(0))
+			.extracting("commentId", "article", "postId", "memberId")
+			.containsExactly(commentId, article, postId, memberId);
+	}
+
+	@Test
+	@Transactional
+	@DisplayName(value = "댓글을 조회합니다.")
+	void findByCommentId() {
+		// given
+		String commentId = "commentId";
+		String article = "article";
+		String postId = "post_id";
+		String memberId = "member_id";
+		Comment comment = createCommentDto(commentId, article, postId, memberId);
+		commentPersistenceAdapter.save(comment);
+
+		assertThat(commentRepository.findAll().size()).isEqualTo(1);
+
+		// when
+		Comment findComment = commentPersistenceAdapter.findByCommentId(commentId);
+
+		// then
+		assertThat(findComment)
 			.extracting("commentId", "article", "postId", "memberId")
 			.containsExactly(commentId, article, postId, memberId);
 	}

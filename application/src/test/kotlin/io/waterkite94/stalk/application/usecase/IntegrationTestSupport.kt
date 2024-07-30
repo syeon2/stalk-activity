@@ -1,6 +1,7 @@
 package io.waterkite94.stalk.application.usecase
 
 import io.waterkite94.stalk.application.port.CommentPersistencePort
+import io.waterkite94.stalk.application.port.LikePersistencePort
 import io.waterkite94.stalk.application.port.PostPersistencePort
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
@@ -15,4 +16,7 @@ abstract class IntegrationTestSupport {
 
     @Mock
     protected lateinit var commentPersistencePort: CommentPersistencePort
+
+    @Mock
+    protected lateinit var likePersistencePort: LikePersistencePort
 }
