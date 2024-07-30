@@ -2,7 +2,7 @@ rootProject.name = "activity-service"
 
 include(
     "bootstrap",
-    "activity-api",
+    "presentation",
     "domain",
     "application",
     "infrastructure:persistence",
