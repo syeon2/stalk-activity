@@ -50,6 +50,8 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 	}
 
 	@Test
+	@Transactional
+	@DisplayName(value = "게시글 아이디를 사용하여 게시글을 조회합니다.")
 	void findPostByPostId() {
 		// given
 		Post savedPost = postPersistenceAdapter.save(createPost());
@@ -83,12 +85,12 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 
 	@Test
 	@Transactional
-	@DisplayName(value = "게시글을 조회합니다.")
+	@DisplayName(value = "증권 아이디를 사용하여 게시글을 조회합니다.")
 	void findBoardPosts() {
 		// given
 		String stockId = "stockId";
-		Integer offset = 0;
-		Integer limit = 10;
+		int offset = 0;
+		int limit = 10;
 		Post savedPost = postPersistenceAdapter.save(createPost());
 		assertThat(postRepository.findAll().size()).isEqualTo(1);
 

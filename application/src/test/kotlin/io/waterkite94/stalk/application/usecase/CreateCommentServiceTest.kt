@@ -1,6 +1,7 @@
 package io.waterkite94.stalk.application.usecase
 
 import io.waterkite94.stalk.application.IntegrationTestSupport
+import io.waterkite94.stalk.application.service.CreateCommentService
 import io.waterkite94.stalk.domain.model.vo.Comment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName

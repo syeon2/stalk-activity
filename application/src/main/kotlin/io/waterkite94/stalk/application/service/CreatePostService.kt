@@ -1,6 +1,7 @@
-package io.waterkite94.stalk.application.usecase
+package io.waterkite94.stalk.application.service
 
 import io.waterkite94.stalk.application.port.PostPersistencePort
+import io.waterkite94.stalk.application.usecase.CreatePost
 import io.waterkite94.stalk.domain.model.vo.Post
 import org.springframework.stereotype.Service
 import java.util.UUID

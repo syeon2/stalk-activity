@@ -1,10 +1,8 @@
-package io.waterkite94.stalk.application.usecase
+package io.waterkite94.stalk.application.service
 
 import io.waterkite94.stalk.application.IntegrationTestSupport
 import io.waterkite94.stalk.application.client.MemberDto
-import io.waterkite94.stalk.application.service.FindPostService
-import io.waterkite94.stalk.domain.model.vo.BoardPost
-import org.assertj.core.api.Assertions.assertThat
+import io.waterkite94.stalk.domain.model.vo.BoardComment
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.times
@@ -12,27 +10,26 @@ import org.mockito.InjectMocks
 import org.mockito.Mockito.verify
 import java.time.LocalDateTime
 
-class FindPostServiceTest : IntegrationTestSupport() {
+class FindCommentServiceTest : IntegrationTestSupport() {
     @InjectMocks
-    private lateinit var findPostService: FindPostService
+    lateinit var findCommentService: FindCommentService
 
     @Test
-    fun findBoardPosts() {
+    fun findCommentByPostId() {
         // given
-        val stockId = "stockId"
+        val postId = "postId"
         val offset = 0
         val limit = 10
-        val listOf = listOf(BoardPost("title", "article", "username", 7, 7, true, "memberId"))
+        val listOf = listOf(BoardComment("article", null, "memberId"))
 
-        given(postPersistencePort.findBoardPosts(stockId, offset, limit)).willReturn(listOf)
+        given(commentPersistencePort.findCommentsByPostId(postId, offset, limit)).willReturn(listOf)
         given(memberServiceClient.getMember("memberId")).willReturn(createMemberDto())
 
         // when
-        val boardPosts = findPostService.findBoardPosts(stockId, offset, limit)
+        findCommentService.findCommentByPostId(postId, offset, limit)
 
         // then
-        assertThat(boardPosts.size).isEqualTo(listOf.size)
-        verify(postPersistencePort, times(1)).findBoardPosts(stockId, offset, limit)
+        verify(commentPersistencePort, times(1)).findCommentsByPostId(postId, offset, limit)
         verify(memberServiceClient, times(listOf.size)).getMember("memberId")
     }
 
