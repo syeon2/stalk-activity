@@ -1,5 +1,6 @@
 package io.waterkite94.stalk.application.usecase
 
+import io.waterkite94.stalk.application.IntegrationTestSupport
 import io.waterkite94.stalk.domain.model.vo.CommentLike
 import io.waterkite94.stalk.domain.model.vo.PostLike
 import org.junit.jupiter.api.DisplayName
