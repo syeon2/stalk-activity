@@ -149,7 +149,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     execCommand: '''
-                                        docker run -d -p 8081:8080 -e URLS='[{"url":"docs/activity-service.json", "name":"stalk-activity"}]' \
+                                        docker run -d -p 8081:8080 -e URLS='[{"url":"docs/activity-service.json", "name":"stalk-activity"}, {"url":"docs/member-service.json", "name":"stalk-member"}]' \
                                         -v ./stalk-documents:/usr/share/nginx/html/docs/ --network stalk-network --name stalk-document \
                                         swaggerapi/swagger-ui
                                     ''',
