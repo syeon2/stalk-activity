@@ -1,6 +1,7 @@
-package io.waterkite94.stalk.application.usecase
+package io.waterkite94.stalk.application.service
 
 import io.waterkite94.stalk.application.port.CommentPersistencePort
+import io.waterkite94.stalk.application.usecase.CreateComment
 import io.waterkite94.stalk.domain.model.vo.Comment
 import org.springframework.stereotype.Service
 import java.util.UUID
