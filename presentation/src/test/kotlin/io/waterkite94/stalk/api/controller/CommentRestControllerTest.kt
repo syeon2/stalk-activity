@@ -1,5 +1,6 @@
 package io.waterkite94.stalk.api.controller
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import io.waterkite94.stalk.api.ControllerTestSupport
 import io.waterkite94.stalk.api.dto.request.CreateCommentRequest
 import io.waterkite94.stalk.api.dto.request.DeleteCommentRequest
@@ -13,8 +14,15 @@ import org.mockito.Mockito.doNothing
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
+import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -48,9 +56,25 @@ class CommentRestControllerTest : ControllerTestSupport() {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data").exists())
             .andExpect(jsonPath("$.data").isString)
+            .andDo(
+                document(
+                    "comment-create",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("article").type(JsonFieldType.STRING).description("댓글 내용"),
+                        fieldWithPath("postId").type(JsonFieldType.STRING).description("게시글 아이디"),
+                        fieldWithPath("memberId").type(JsonFieldType.STRING).description("작성자 아이디")
+                    ),
+                    responseFields(
+                        fieldWithPath("data").type(JsonFieldType.STRING).description("댓글 아이디")
+                    )
+                )
+            )
     }
 
     @Test
+    @DisplayName(value = "댓글을 삭제하는 API를 호출합니다.")
     fun deleteCommentApi() {
         // given
         val deleteCommentRequest = deleteCommentRequest()
@@ -66,6 +90,20 @@ class CommentRestControllerTest : ControllerTestSupport() {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data").exists())
             .andExpect(jsonPath("$.data").value("Deleted comment successfully"))
+            .andDo(
+                document(
+                    "comment-delete",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("commentId").type(JsonFieldType.STRING).description("댓글 아이디"),
+                        fieldWithPath("memberId").type(JsonFieldType.STRING).description("작성자 아이디")
+                    ),
+                    responseFields(
+                        fieldWithPath("data").type(JsonFieldType.STRING).description("성공 여부 메시지")
+                    )
+                )
+            )
     }
 
     private fun createCommentRequest() = CreateCommentRequest("article", "postId", "memberId")

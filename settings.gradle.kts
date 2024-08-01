@@ -15,6 +15,7 @@ pluginManagement {
     val springBootVersion: String by settings
     val springDependencyManagementVersion: String by settings
     val ktlintVersion: String by settings
+    val springRestDocsVersion: String by settings
 
     resolutionStrategy {
         eachPlugin {
@@ -24,6 +25,7 @@ pluginManagement {
                 "org.springframework.boot" -> useVersion(springBootVersion)
                 "io.spring.dependency-management" -> useVersion(springDependencyManagementVersion)
                 "org.jlleitschuh.gradle.ktlint" -> useVersion(ktlintVersion)
+                "com.epages.restdocs-api-spec" -> useVersion(springRestDocsVersion)
             }
         }
     }
