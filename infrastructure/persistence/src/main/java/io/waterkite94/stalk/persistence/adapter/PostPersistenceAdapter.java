@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import io.waterkite94.stalk.application.port.PostPersistencePort;
 import io.waterkite94.stalk.domain.model.vo.BoardPost;
 import io.waterkite94.stalk.domain.model.vo.Post;
-import io.waterkite94.stalk.persistence.dto.BoardPostDto;
 import io.waterkite94.stalk.persistence.enrity.PostEntity;
 import io.waterkite94.stalk.persistence.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,19 +49,7 @@ public class PostPersistenceAdapter implements PostPersistencePort {
 	@Override
 	public List<BoardPost> findBoardPosts(@NotNull String stockId, int offset, int limit) {
 		return postRepository.findBoardPosts(stockId, offset, limit).stream()
-			.map(this::mapper)
+			.map(postMapper::toBoardPostServiceDto)
 			.collect(Collectors.toList());
-	}
-
-	private BoardPost mapper(BoardPostDto dto) {
-		return new BoardPost(
-			dto.getTitle(),
-			dto.getArticle(),
-			null,
-			dto.getPostLikeCount(),
-			dto.getCommentCount(),
-			null,
-			dto.getMemberId()
-		);
 	}
 }

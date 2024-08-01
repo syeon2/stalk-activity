@@ -1,7 +1,7 @@
 package io.waterkite94.stalk.application.port
 
+import io.waterkite94.stalk.domain.model.vo.BoardComment
 import io.waterkite94.stalk.domain.model.vo.Comment
-import io.waterkite94.stalk.domain.model.vo.CommentDto
 
 interface CommentPersistencePort {
     fun save(comment: Comment): Comment
@@ -12,7 +12,7 @@ interface CommentPersistencePort {
         postId: String,
         offset: Int,
         limit: Int
-    ): List<CommentDto>
+    ): List<BoardComment>
 
     fun deleteByCommentId(commentId: String)
 }

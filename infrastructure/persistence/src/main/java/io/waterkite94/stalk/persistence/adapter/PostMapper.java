@@ -2,7 +2,9 @@ package io.waterkite94.stalk.persistence.adapter;
 
 import org.springframework.stereotype.Component;
 
+import io.waterkite94.stalk.domain.model.vo.BoardPost;
 import io.waterkite94.stalk.domain.model.vo.Post;
+import io.waterkite94.stalk.persistence.dto.BoardPostDto;
 import io.waterkite94.stalk.persistence.enrity.PostEntity;
 
 @Component
@@ -28,6 +30,18 @@ public class PostMapper {
 			postEntity.getUpdatedAt(),
 			postEntity.getMemberId(),
 			postEntity.getStockId()
+		);
+	}
+
+	public BoardPost toBoardPostServiceDto(BoardPostDto boardPostDto) {
+		return new BoardPost(
+			boardPostDto.getTitle(),
+			boardPostDto.getArticle(),
+			null,
+			boardPostDto.getPostLikeCount(),
+			boardPostDto.getCommentCount(),
+			null,
+			boardPostDto.getMemberId()
 		);
 	}
 }
