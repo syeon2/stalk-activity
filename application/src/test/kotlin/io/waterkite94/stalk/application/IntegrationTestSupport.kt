@@ -1,5 +1,6 @@
 package io.waterkite94.stalk.application
 
+import io.waterkite94.stalk.application.client.MemberServiceClient
 import io.waterkite94.stalk.application.port.CommentPersistencePort
 import io.waterkite94.stalk.application.port.LikePersistencePort
 import io.waterkite94.stalk.application.port.PostPersistencePort
@@ -19,4 +20,7 @@ abstract class IntegrationTestSupport {
 
     @Mock
     protected lateinit var likePersistencePort: LikePersistencePort
+
+    @Mock
+    protected lateinit var memberServiceClient: MemberServiceClient
 }
