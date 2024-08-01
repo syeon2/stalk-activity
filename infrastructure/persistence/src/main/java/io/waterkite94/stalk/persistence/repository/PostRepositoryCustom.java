@@ -6,5 +6,5 @@ import io.waterkite94.stalk.persistence.dto.BoardPostDto;
 
 public interface PostRepositoryCustom {
 
-	List<BoardPostDto> findBoardPosts(Integer offset, Integer limit);
+	List<BoardPostDto> findBoardPosts(String stockId, Integer offset, Integer limit);
 }

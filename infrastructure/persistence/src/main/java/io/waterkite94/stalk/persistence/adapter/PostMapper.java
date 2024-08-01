@@ -14,6 +14,7 @@ public class PostMapper {
 			.title(post.getTitle())
 			.article(post.getArticle())
 			.memberId(post.getMemberId())
+			.stockId(post.getStockId())
 			.build();
 	}
 
@@ -25,7 +26,8 @@ public class PostMapper {
 			postEntity.getArticle(),
 			postEntity.getCreatedAt(),
 			postEntity.getUpdatedAt(),
-			postEntity.getMemberId()
+			postEntity.getMemberId(),
+			postEntity.getStockId()
 		);
 	}
 }

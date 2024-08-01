@@ -9,7 +9,8 @@ data class Post(
     val article: String,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null,
-    val memberId: String
+    val memberId: String,
+    val stockId: String
 ) {
     fun withPostId(postId: String): Post = copy(postId = postId)
 }
