@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.waterkite94.stalk.domain.model.vo.Comment;
 import io.waterkite94.stalk.persistence.IntegrationTestSupport;
+import io.waterkite94.stalk.persistence.adapter.CommentPersistenceAdapter;
 import io.waterkite94.stalk.persistence.enrity.CommentEntity;
 
 class CommentPersistenceAdapterTest extends IntegrationTestSupport {

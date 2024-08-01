@@ -12,8 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.waterkite94.stalk.domain.model.vo.BoardPost;
 import io.waterkite94.stalk.domain.model.vo.Post;
 import io.waterkite94.stalk.persistence.IntegrationTestSupport;
+import io.waterkite94.stalk.persistence.adapter.PostPersistenceAdapter;
 import io.waterkite94.stalk.persistence.enrity.PostEntity;
 
 class PostPersistenceAdapterTest extends IntegrationTestSupport {
@@ -77,6 +79,26 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 		List<PostEntity> findPosts = postRepository.findAll();
 
 		assertThat(findPosts.size()).isEqualTo(0);
+	}
+
+	@Test
+	@Transactional
+	@DisplayName(value = "게시글을 조회합니다.")
+	void findBoardPosts() {
+		// given
+		Integer offset = 0;
+		Integer limit = 10;
+		Post savedPost = postPersistenceAdapter.save(createPost());
+		assertThat(postRepository.findAll().size()).isEqualTo(1);
+
+		// when
+		List<BoardPost> findBoardPosts = postPersistenceAdapter.findBoardPosts(offset, limit);
+
+		// then
+		assertThat(findBoardPosts.size()).isEqualTo(1);
+		assertThat(findBoardPosts.get(0))
+			.extracting("title", "article", "postLikeCount", "commentCount")
+			.containsExactlyInAnyOrder(savedPost.getTitle(), savedPost.getArticle(), 0, 0);
 	}
 
 	public Post createPost() {

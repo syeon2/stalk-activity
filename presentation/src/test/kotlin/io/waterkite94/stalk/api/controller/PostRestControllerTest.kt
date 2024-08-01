@@ -6,6 +6,8 @@ import io.waterkite94.stalk.api.dto.request.CreatePostRequest
 import io.waterkite94.stalk.api.dto.request.DeletePostRequest
 import io.waterkite94.stalk.application.usecase.CreatePost
 import io.waterkite94.stalk.application.usecase.DeletePost
+import io.waterkite94.stalk.application.usecase.FindPost
+import io.waterkite94.stalk.domain.model.vo.BoardPost
 import io.waterkite94.stalk.domain.model.vo.Post
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
@@ -37,6 +40,9 @@ class PostRestControllerTest : ControllerTestSupport() {
 
     @MockBean
     private lateinit var deletePost: DeletePost
+
+    @MockBean
+    private lateinit var findPost: FindPost
 
     @Test
     @DisplayName(value = "게시글을 생성하는 API를 호출합니다.")
@@ -115,6 +121,43 @@ class PostRestControllerTest : ControllerTestSupport() {
             )
 
         verify(deletePost, times(1)).deletePost(deletePostRequest.postId, deletePostRequest.memberId)
+    }
+
+    @Test
+    @DisplayName(value = "게시글을 조회하는 API를 호출합니다.")
+    fun findPostApi() {
+        // given
+        val boardPost = BoardPost("title", "article", "username", 7, 7, true)
+        given(findPost.findBoardPosts()).willReturn(listOf(boardPost))
+
+        // when  // then
+        mockMvc
+            .perform(
+                get("/api/v1/posts")
+                    .contentType(MediaType.APPLICATION_JSON)
+            ).andDo(MockMvcResultHandlers.print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data[0].title").isString)
+            .andExpect(jsonPath("$.data[0].article").isString)
+            .andExpect(jsonPath("$.data[0].username").isString)
+            .andExpect(jsonPath("$.data[0].postLikeCount").isNumber)
+            .andExpect(jsonPath("$.data[0].commentCount").isNumber)
+            .andExpect(jsonPath("$.data[0].isFollowing").isBoolean)
+            .andDo(
+                document(
+                    "post-board-get",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    responseFields(
+                        fieldWithPath("data[].title").type(JsonFieldType.STRING).description("게시글 제목"),
+                        fieldWithPath("data[].article").type(JsonFieldType.STRING).description("게시글 내용"),
+                        fieldWithPath("data[].username").type(JsonFieldType.STRING).description("회원 이름"),
+                        fieldWithPath("data[].postLikeCount").type(JsonFieldType.NUMBER).description("게시글 좋아요 수"),
+                        fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
+                        fieldWithPath("data[].isFollowing").type(JsonFieldType.BOOLEAN).description("팔로잉 여부")
+                    )
+                )
+            )
     }
 
     private fun deletePostRequest() = DeletePostRequest("postId", "memberId")

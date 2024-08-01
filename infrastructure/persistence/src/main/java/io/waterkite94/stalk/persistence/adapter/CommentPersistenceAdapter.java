@@ -1,4 +1,4 @@
-package io.waterkite94.stalk.persistence.repository;
+package io.waterkite94.stalk.persistence.adapter;
 
 import java.util.Optional;
 
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.waterkite94.stalk.application.port.CommentPersistencePort;
 import io.waterkite94.stalk.domain.model.vo.Comment;
 import io.waterkite94.stalk.persistence.enrity.CommentEntity;
+import io.waterkite94.stalk.persistence.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 
 @Repository
