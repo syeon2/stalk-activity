@@ -28,6 +28,8 @@ import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -67,6 +69,7 @@ class PostRestControllerTest : ControllerTestSupport() {
             .andExpect(jsonPath("$.data.title").isString)
             .andExpect(jsonPath("$.data.article").isString)
             .andExpect(jsonPath("$.data.memberId").isString)
+            .andExpect(jsonPath("$.data.stockId").isString)
             .andDo(
                 document(
                     "post-create",
@@ -82,7 +85,8 @@ class PostRestControllerTest : ControllerTestSupport() {
                         fieldWithPath("data.postId").type(JsonFieldType.STRING).description("게시글 아이디"),
                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("게시글 제목"),
                         fieldWithPath("data.article").type(JsonFieldType.STRING).description("게시글 내용"),
-                        fieldWithPath("data.memberId").type(JsonFieldType.STRING).description("작성자 아이디")
+                        fieldWithPath("data.memberId").type(JsonFieldType.STRING).description("작성자 아이디"),
+                        fieldWithPath("data.stockId").type(JsonFieldType.STRING).description("증권 아이디")
                     )
                 )
             )
@@ -132,13 +136,16 @@ class PostRestControllerTest : ControllerTestSupport() {
         val offset = 0
         val limit = 10
 
-        val boardPost = BoardPost("title", "article", "username", 7, 7, true)
+        val boardPost = BoardPost("title", "article", "username", 7, 7, true, "memberId")
         given(findPost.findBoardPosts(stockId, offset, limit)).willReturn(listOf(boardPost))
 
         // when  // then
         mockMvc
             .perform(
                 get("/api/v1/posts")
+                    .queryParam("stockId", stockId)
+                    .queryParam("offset", offset.toString())
+                    .queryParam("limit", limit.toString())
                     .contentType(MediaType.APPLICATION_JSON)
             ).andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk())
@@ -153,13 +160,19 @@ class PostRestControllerTest : ControllerTestSupport() {
                     "post-board-get",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()),
+                    queryParameters(
+                        parameterWithName("stockId").description("증권 아이디"),
+                        parameterWithName("offset").description("Page Offset"),
+                        parameterWithName("limit").description("컨텐츠 개수")
+                    ),
                     responseFields(
                         fieldWithPath("data[].title").type(JsonFieldType.STRING).description("게시글 제목"),
                         fieldWithPath("data[].article").type(JsonFieldType.STRING).description("게시글 내용"),
                         fieldWithPath("data[].username").type(JsonFieldType.STRING).description("회원 이름"),
                         fieldWithPath("data[].postLikeCount").type(JsonFieldType.NUMBER).description("게시글 좋아요 수"),
                         fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
-                        fieldWithPath("data[].isFollowing").type(JsonFieldType.BOOLEAN).description("팔로잉 여부")
+                        fieldWithPath("data[].isFollowing").type(JsonFieldType.BOOLEAN).description("팔로잉 여부"),
+                        fieldWithPath("data[].memberId").type(JsonFieldType.STRING).description("회원 아이디")
                     )
                 )
             )
@@ -167,7 +180,7 @@ class PostRestControllerTest : ControllerTestSupport() {
 
     private fun deletePostRequest() = DeletePostRequest("postId", "memberId")
 
-    private fun createPostRequest() = CreatePostRequest("title", "article", "memberId")
+    private fun createPostRequest() = CreatePostRequest("title", "article", "memberId", "stockId")
 
     private fun createPostDto() =
         Post(1L, "postId", "title", "article", LocalDateTime.now(), LocalDateTime.now(), "memberId", "stockId")
