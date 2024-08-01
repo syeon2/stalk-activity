@@ -23,7 +23,8 @@ class DeletePostServiceTest : IntegrationTestSupport() {
         // given
         val postId = "postId"
         val memberId = "memberId"
-        val post = createPost(postId, memberId)
+        val stockId = "stockId"
+        val post = createPost(stockId, postId, memberId)
 
         given(postPersistencePort.findPostByPostId(postId)).willReturn(post)
 
@@ -56,9 +57,10 @@ class DeletePostServiceTest : IntegrationTestSupport() {
     @DisplayName(value = "게시글 저자와 삭제하는 유저의 아이디가 일치하지 않으면 예외를 반환합니다.")
     fun deletePost_permissionDenied() {
         // given
+        val stockId = "stockId"
         val postId = "postId"
         val memberId = "memberId"
-        val post = createPost(postId, memberId)
+        val post = createPost(stockId, postId, memberId)
 
         given(postPersistencePort.findPostByPostId(postId)).willReturn(post)
 
@@ -74,7 +76,8 @@ class DeletePostServiceTest : IntegrationTestSupport() {
     }
 
     private fun createPost(
+        stockId: String,
         postId: String,
         memberId: String
-    ): Post = Post(null, postId, "title", "article", null, null, memberId)
+    ): Post = Post(null, postId, "title", "article", null, null, memberId, stockId)
 }

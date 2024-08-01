@@ -11,10 +11,11 @@ class FindPostService(
     private val memberServiceClient: MemberServiceClient
 ) : FindPost {
     override fun findBoardPosts(
+        stockId: String,
         offset: Int,
         limit: Int
     ): List<BoardPost> {
-        val findBoardPosts = postPersistencePort.findBoardPosts(offset, limit)
+        val findBoardPosts = postPersistencePort.findBoardPosts(stockId, offset, limit)
 
         val ansBoardPost: MutableList<BoardPost> = ArrayList()
 

@@ -86,13 +86,14 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 	@DisplayName(value = "게시글을 조회합니다.")
 	void findBoardPosts() {
 		// given
+		String stockId = "stockId";
 		Integer offset = 0;
 		Integer limit = 10;
 		Post savedPost = postPersistenceAdapter.save(createPost());
 		assertThat(postRepository.findAll().size()).isEqualTo(1);
 
 		// when
-		List<BoardPost> findBoardPosts = postPersistenceAdapter.findBoardPosts(offset, limit);
+		List<BoardPost> findBoardPosts = postPersistenceAdapter.findBoardPosts(stockId, offset, limit);
 
 		// then
 		assertThat(findBoardPosts.size()).isEqualTo(1);
@@ -102,6 +103,6 @@ class PostPersistenceAdapterTest extends IntegrationTestSupport {
 	}
 
 	public Post createPost() {
-		return new Post(null, "postId", "title", "article", null, null, "memberId");
+		return new Post(null, "postId", "title", "article", null, null, "memberId", "stockId");
 	}
 }

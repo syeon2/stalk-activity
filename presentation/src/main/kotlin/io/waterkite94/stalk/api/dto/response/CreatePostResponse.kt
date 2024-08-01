@@ -6,7 +6,8 @@ data class CreatePostResponse(
     val postId: String? = null,
     val title: String,
     val article: String,
-    val memberId: String
+    val memberId: String,
+    val stockId: String
 ) {
     companion object {
         fun toResponse(domain: Post): CreatePostResponse =
@@ -14,7 +15,8 @@ data class CreatePostResponse(
                 postId = domain.postId,
                 title = domain.title,
                 article = domain.article,
-                memberId = domain.memberId
+                memberId = domain.memberId,
+                stockId = domain.stockId
             )
     }
 }
