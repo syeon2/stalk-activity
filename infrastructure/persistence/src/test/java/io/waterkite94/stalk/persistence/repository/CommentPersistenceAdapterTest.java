@@ -55,7 +55,7 @@ class CommentPersistenceAdapterTest extends IntegrationTestSupport {
 
 	@Test
 	@Transactional
-	@DisplayName(value = "댓글을 조회합니다.")
+	@DisplayName(value = "댓글 아이디를 사용하여 댓글을 조회합니다.")
 	void findByCommentId() {
 		// given
 		String commentId = "commentId";

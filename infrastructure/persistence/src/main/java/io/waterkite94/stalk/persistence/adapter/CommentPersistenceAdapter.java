@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.waterkite94.stalk.application.port.CommentPersistencePort;
+import io.waterkite94.stalk.domain.model.vo.BoardComment;
 import io.waterkite94.stalk.domain.model.vo.Comment;
-import io.waterkite94.stalk.domain.model.vo.CommentDto;
 import io.waterkite94.stalk.persistence.enrity.CommentEntity;
 import io.waterkite94.stalk.persistence.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,15 +47,9 @@ public class CommentPersistenceAdapter implements CommentPersistencePort {
 
 	@NotNull
 	@Override
-	public List<CommentDto> findCommentsByPostId(@NotNull String postId, int offset, int limit) {
-		List<CommentEntity> findComments = commentRepository.findCommentsByPostId(postId, offset, limit);
-
-		return findComments.stream()
-			.map(this::mapper)
+	public List<BoardComment> findCommentsByPostId(@NotNull String postId, int offset, int limit) {
+		return commentRepository.findCommentsByPostId(postId, offset, limit).stream()
+			.map(commentMapper::toBoardCommentServiceDto)
 			.collect(Collectors.toList());
-	}
-
-	private CommentDto mapper(CommentEntity commentEntity) {
-		return new CommentDto(commentEntity.getArticle(), null, commentEntity.getMemberId());
 	}
 }

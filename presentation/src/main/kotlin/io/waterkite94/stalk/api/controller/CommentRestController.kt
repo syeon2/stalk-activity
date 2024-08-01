@@ -6,7 +6,7 @@ import io.waterkite94.stalk.api.dto.response.ApiResponse
 import io.waterkite94.stalk.application.usecase.CreateComment
 import io.waterkite94.stalk.application.usecase.DeleteComment
 import io.waterkite94.stalk.application.usecase.FindComment
-import io.waterkite94.stalk.domain.model.vo.CommentDto
+import io.waterkite94.stalk.domain.model.vo.BoardComment
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,8 +45,8 @@ class CommentRestController(
         @RequestParam postId: String,
         @RequestParam offset: Int,
         @RequestParam limit: Int
-    ): ApiResponse<List<CommentDto>> {
-        val comments: List<CommentDto> = findComment.findCommentByPostId(postId, offset, limit)
+    ): ApiResponse<List<BoardComment>> {
+        val comments: List<BoardComment> = findComment.findCommentByPostId(postId, offset, limit)
 
         return ApiResponse.success(comments)
     }

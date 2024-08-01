@@ -2,6 +2,7 @@ package io.waterkite94.stalk.persistence.adapter;
 
 import org.springframework.stereotype.Component;
 
+import io.waterkite94.stalk.domain.model.vo.BoardComment;
 import io.waterkite94.stalk.domain.model.vo.Comment;
 import io.waterkite94.stalk.persistence.enrity.CommentEntity;
 
@@ -27,5 +28,9 @@ public class CommentMapper {
 			entity.getCreatedAt(),
 			entity.getUpdatedAt()
 		);
+	}
+
+	public BoardComment toBoardCommentServiceDto(CommentEntity commentEntity) {
+		return new BoardComment(commentEntity.getArticle(), null, commentEntity.getMemberId());
 	}
 }
