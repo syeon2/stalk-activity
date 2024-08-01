@@ -1,6 +1,8 @@
 package io.waterkite94.stalk.persistence.adapter;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.waterkite94.stalk.application.port.CommentPersistencePort;
 import io.waterkite94.stalk.domain.model.vo.Comment;
+import io.waterkite94.stalk.domain.model.vo.CommentDto;
 import io.waterkite94.stalk.persistence.enrity.CommentEntity;
 import io.waterkite94.stalk.persistence.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +43,19 @@ public class CommentPersistenceAdapter implements CommentPersistencePort {
 	@Transactional
 	public void deleteByCommentId(@NotNull String commentId) {
 		commentRepository.deleteByCommentId(commentId);
+	}
+
+	@NotNull
+	@Override
+	public List<CommentDto> findCommentsByPostId(@NotNull String postId, int offset, int limit) {
+		List<CommentEntity> findComments = commentRepository.findCommentsByPostId(postId, offset, limit);
+
+		return findComments.stream()
+			.map(this::mapper)
+			.collect(Collectors.toList());
+	}
+
+	private CommentDto mapper(CommentEntity commentEntity) {
+		return new CommentDto(commentEntity.getArticle(), null, commentEntity.getMemberId());
 	}
 }
