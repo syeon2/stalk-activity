@@ -20,7 +20,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public List<BoardPostDto> findBoardPosts(Integer offset, Integer limit) {
+	public List<BoardPostDto> findBoardPosts(String stockId, Integer offset, Integer limit) {
 		return queryFactory.select(Projections.constructor(BoardPostDto.class,
 				QPostEntity.postEntity.title,
 				QPostEntity.postEntity.article,
@@ -32,7 +32,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 			.on(QPostLikeEntity.postLikeEntity.postId.eq(QPostEntity.postEntity.postId))
 			.leftJoin(QCommentEntity.commentEntity)
 			.on(QCommentEntity.commentEntity.postId.eq(QCommentEntity.commentEntity.postId))
-			.groupBy(QPostEntity.postEntity.title, QPostEntity.postEntity.article, QPostEntity.postEntity.memberId)
+			.where(QPostEntity.postEntity.stockId.eq(stockId))
+			.groupBy(QPostEntity.postEntity.title, QPostEntity.postEntity.article, QPostEntity.postEntity.memberId,
+				QPostEntity.postEntity.stockId)
 			.offset(offset)
 			.limit(limit)
 			.fetch();

@@ -43,10 +43,11 @@ class PostRestController(
 
     @GetMapping
     fun getPostsApi(
+        @RequestParam stockId: String,
         @RequestParam offset: Int,
         @RequestParam limit: Int
     ): ApiResponse<List<BoardPost>> {
-        val findPosts = findPost.findBoardPosts(offset, limit)
+        val findPosts = findPost.findBoardPosts(stockId, offset, limit)
 
         return ApiResponse.success(findPosts)
     }

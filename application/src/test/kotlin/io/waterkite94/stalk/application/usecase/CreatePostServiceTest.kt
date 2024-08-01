@@ -39,5 +39,6 @@ class CreatePostServiceTest : IntegrationTestSupport() {
             .containsExactlyInAnyOrder(post.title, post.article, post.memberId)
     }
 
-    private fun createPostDto() = Post(title = "제목입니다.", article = "게시글입니다.", memberId = "회원아이디입니다.")
+    private fun createPostDto() =
+        Post(title = "제목입니다.", article = "게시글입니다.", memberId = "회원아이디입니다.", stockId = "증권 아이디")
 }

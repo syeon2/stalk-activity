@@ -75,7 +75,8 @@ class PostRestControllerTest : ControllerTestSupport() {
                     requestFields(
                         fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
                         fieldWithPath("article").type(JsonFieldType.STRING).description("게시글 내용"),
-                        fieldWithPath("memberId").type(JsonFieldType.STRING).description("작성자 아이디")
+                        fieldWithPath("memberId").type(JsonFieldType.STRING).description("작성자 아이디"),
+                        fieldWithPath("stockId").type(JsonFieldType.STRING).description("증권 아이디")
                     ),
                     responseFields(
                         fieldWithPath("data.postId").type(JsonFieldType.STRING).description("게시글 아이디"),
@@ -127,8 +128,12 @@ class PostRestControllerTest : ControllerTestSupport() {
     @DisplayName(value = "게시글을 조회하는 API를 호출합니다.")
     fun findPostApi() {
         // given
+        val stockId = "stockId"
+        val offset = 0
+        val limit = 10
+
         val boardPost = BoardPost("title", "article", "username", 7, 7, true)
-        given(findPost.findBoardPosts()).willReturn(listOf(boardPost))
+        given(findPost.findBoardPosts(stockId, offset, limit)).willReturn(listOf(boardPost))
 
         // when  // then
         mockMvc
@@ -165,5 +170,5 @@ class PostRestControllerTest : ControllerTestSupport() {
     private fun createPostRequest() = CreatePostRequest("title", "article", "memberId")
 
     private fun createPostDto() =
-        Post(1L, "postId", "title", "article", LocalDateTime.now(), LocalDateTime.now(), "memberId")
+        Post(1L, "postId", "title", "article", LocalDateTime.now(), LocalDateTime.now(), "memberId", "stockId")
 }

@@ -11,6 +11,7 @@ interface PostPersistencePort {
     fun deleteByPostId(postId: String)
 
     fun findBoardPosts(
+        stockId: String,
         offset: Int,
         limit: Int
     ): List<BoardPost>

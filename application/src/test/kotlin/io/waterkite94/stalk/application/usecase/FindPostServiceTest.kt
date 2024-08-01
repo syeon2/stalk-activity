@@ -16,14 +16,15 @@ class FindPostServiceTest : IntegrationTestSupport() {
     @Test
     fun findBoardPosts() {
         // given
+        val stockId = "stockId"
         val offset = 0
         val limit = 10
         val boardPost = BoardPost("title", "article", "username", 7, 7, true)
-        given(findPostService.findBoardPosts(offset, limit)).willReturn(listOf(boardPost))
+        given(findPostService.findBoardPosts(stockId, offset, limit)).willReturn(listOf(boardPost))
         doNothing().`when`(memberServiceClient.getMember(any()))
 
         // when
-        val boardPosts = findPostService.findBoardPosts(offset, limit)
+        val boardPosts = findPostService.findBoardPosts(stockId, offset, limit)
 
         // then
         assertThat(boardPosts).isNotEmpty()

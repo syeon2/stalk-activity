@@ -34,11 +34,15 @@ public class PostEntity extends BaseEntity {
 	@Column(name = "member_id", columnDefinition = "varchar(60)", nullable = false)
 	private String memberId;
 
+	@Column(name = "stock_id", columnDefinition = "varchar(30)", nullable = false)
+	private String stockId;
+
 	@Builder
-	private PostEntity(long id, String postId, String title, String article, String memberId) {
+	private PostEntity(long id, String postId, String title, String article, String memberId, String stockId) {
 		this.postId = postId;
 		this.title = title;
 		this.article = article;
 		this.memberId = memberId;
+		this.stockId = stockId;
 	}
 }

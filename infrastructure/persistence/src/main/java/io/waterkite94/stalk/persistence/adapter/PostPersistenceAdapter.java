@@ -48,8 +48,8 @@ public class PostPersistenceAdapter implements PostPersistencePort {
 
 	@NotNull
 	@Override
-	public List<BoardPost> findBoardPosts(int offset, int limit) {
-		return postRepository.findBoardPosts(offset, limit).stream()
+	public List<BoardPost> findBoardPosts(@NotNull String stockId, int offset, int limit) {
+		return postRepository.findBoardPosts(stockId, offset, limit).stream()
 			.map(this::mapper)
 			.collect(Collectors.toList());
 	}
