@@ -1,4 +1,4 @@
-package io.waterkite94.stalk.application.usecase
+package io.waterkite94.stalk.application
 
 import io.waterkite94.stalk.application.port.CommentPersistencePort
 import io.waterkite94.stalk.application.port.LikePersistencePort

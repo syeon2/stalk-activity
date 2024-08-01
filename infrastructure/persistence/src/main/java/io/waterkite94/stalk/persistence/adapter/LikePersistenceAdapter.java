@@ -1,4 +1,4 @@
-package io.waterkite94.stalk.persistence.repository;
+package io.waterkite94.stalk.persistence.adapter;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import io.waterkite94.stalk.application.port.LikePersistencePort;
 import io.waterkite94.stalk.domain.model.vo.CommentLike;
 import io.waterkite94.stalk.domain.model.vo.PostLike;
+import io.waterkite94.stalk.persistence.repository.CommentLikeRepository;
+import io.waterkite94.stalk.persistence.repository.PostLikeRepository;
 import lombok.RequiredArgsConstructor;
 
 @Repository

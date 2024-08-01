@@ -1,5 +1,6 @@
 package io.waterkite94.stalk.application.usecase
 
+import io.waterkite94.stalk.application.IntegrationTestSupport
 import io.waterkite94.stalk.domain.model.vo.Post
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode

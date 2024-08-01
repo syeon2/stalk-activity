@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.waterkite94.stalk.domain.model.vo.CommentLike;
 import io.waterkite94.stalk.domain.model.vo.PostLike;
 import io.waterkite94.stalk.persistence.IntegrationTestSupport;
+import io.waterkite94.stalk.persistence.adapter.LikePersistenceAdapter;
 import io.waterkite94.stalk.persistence.enrity.CommentLikeEntity;
 import io.waterkite94.stalk.persistence.enrity.PostLikeEntity;
 
